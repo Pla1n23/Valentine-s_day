@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" sizes="32x32"  href="./img/favicon.png">
+  <title>Кто будет твоей валентинкой</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(160deg, #fff5f7 0%, #ffe4ec 40%, #ffcce0 100%);
+      font-family: system-ui, sans-serif;
+      padding: 2rem;
+      position: relative;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url(./img/bg-1920.jpg);
+      background-size: cover;
+      background-position: center;
+      opacity: 0.15;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .hearts-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .hearts-bg .heart {
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      opacity: 0.26;
+    }
+    .hearts-bg .heart svg { width: 100%; height: 100%; fill: #e84a5f; }
+    .hearts-bg .heart-1 { left: 0; top: 15%; animation: hFly1 14s linear infinite; }
+    .hearts-bg .heart-2 { left: 95%; top: 25%; animation: hFly2 16s linear infinite 1s; }
+    .hearts-bg .heart-3 { left: 20%; top: 0; animation: hFly3 13s linear infinite 2s; }
+    .hearts-bg .heart-4 { left: 80%; top: 85%; animation: hFly4 15s linear infinite 0.5s; }
+    .hearts-bg .heart-5 { left: 50%; top: 10%; animation: hFly5 17s linear infinite 3s; }
+    .hearts-bg .heart-6 { left: 5%; top: 60%; animation: hFly6 12s linear infinite 2.5s; }
+    .hearts-bg .heart-7 { left: 90%; top: 50%; animation: hFly7 18s linear infinite 1.5s; }
+    .hearts-bg .heart-8 { left: 40%; top: 90%; animation: hFly8 14s linear infinite 4s; }
+    @keyframes hFly1 { 0% { transform: translate(0, 0); } 100% { transform: translate(-110vw, 20vh); } }
+    @keyframes hFly2 { 0% { transform: translate(0, 0); } 100% { transform: translate(110vw, -15vh); } }
+    @keyframes hFly3 { 0% { transform: translate(0, 0); } 100% { transform: translate(30vw, 110vh); } }
+    @keyframes hFly4 { 0% { transform: translate(0, 0); } 100% { transform: translate(-80vw, -110vh); } }
+    @keyframes hFly5 { 0% { transform: translate(0, 0); } 100% { transform: translate(90vw, 80vh); } }
+    @keyframes hFly6 { 0% { transform: translate(0, 0); } 100% { transform: translate(100vw, 30vh); } }
+    @keyframes hFly7 { 0% { transform: translate(0, 0); } 100% { transform: translate(-100vw, -40vh); } }
+    @keyframes hFly8 { 0% { transform: translate(0, 0); } 100% { transform: translate(-40vw, -100vh); } }
+    .start-container {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .start-container h1 {
+      color: #5c3d4a;
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      margin-bottom: 2rem;
+      line-height: 1.3;
+      max-width: 700px;
+    }
+    .btn-start {
+      display: inline-block;
+      padding: 1.5rem 2.5rem;
+      font-size: 1.2rem;
+      color: #5c3d4a;
+      width: 400px;
+      background: rgba(255, 228, 236, 0.95);
+      border: 2px solid rgba(255, 182, 193, 0.6);
+      border-radius: 16px;
+      text-decoration: none;
+      box-shadow: 0 6px 24px rgba(255, 105, 180, 0.15);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-start:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 32px rgba(255, 105, 180, 0.25);
+    }
+  </style>
+</head>
+<body>
+  <div class="hearts-bg" aria-hidden="true">
+    <span class="heart heart-1"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
+    <span class="heart heart-2"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
+    <span class="heart heart-3"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
+    <span class="heart heart-4"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
+    <span class="heart heart-5"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
+    <span class="heart heart-6"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
+    <span class="heart heart-7"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
+    <span class="heart heart-8"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
+  </div>
+  <div class="start-container">
+    <h1>Кто будет твоей валентинкой на 14 февраля?</h1>
+    <a href="page1.html" class="btn-start">Приступить к тесту</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Генерируем результат...</title>
+  <link rel="icon" type="image/png" sizes="32x32"  href="./img/favicon.png">
+
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(
+          160deg,
+          #fff5f7 0%,
+          #ffe4ec 40%,
+          #ffcce0 100%
+        );
+        font-family: system-ui, sans-serif;
+        padding: 2rem;
+        position: relative;
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url(./img/bg-1920.jpg);
+        background-size: cover;
+        background-position: center;
+        opacity: 0.15;
+        pointer-events: none;
+        z-index: 0;
+      }
+      .hearts-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+      .hearts-bg .heart { position: absolute; width: 22px; height: 22px; opacity: 0.26; }
+      .hearts-bg .heart svg { width: 100%; height: 100%; fill: #e84a5f; }
+      .hearts-bg .heart-1 { left: 0; top: 15%; animation: hFly1 14s linear infinite; }
+      .hearts-bg .heart-2 { left: 95%; top: 25%; animation: hFly2 16s linear infinite 1s; }
+      .hearts-bg .heart-3 { left: 20%; top: 0; animation: hFly3 13s linear infinite 2s; }
+      .hearts-bg .heart-4 { left: 80%; top: 85%; animation: hFly4 15s linear infinite 0.5s; }
+      .hearts-bg .heart-5 { left: 50%; top: 10%; animation: hFly5 17s linear infinite 3s; }
+      .hearts-bg .heart-6 { left: 5%; top: 60%; animation: hFly6 12s linear infinite 2.5s; }
+      .hearts-bg .heart-7 { left: 90%; top: 50%; animation: hFly7 18s linear infinite 1.5s; }
+      .hearts-bg .heart-8 { left: 40%; top: 90%; animation: hFly8 14s linear infinite 4s; }
+      @keyframes hFly1 { 0% { transform: translate(0, 0); } 100% { transform: translate(-110vw, 20vh); } }
+      @keyframes hFly2 { 0% { transform: translate(0, 0); } 100% { transform: translate(110vw, -15vh); } }
+      @keyframes hFly3 { 0% { transform: translate(0, 0); } 100% { transform: translate(30vw, 110vh); } }
+      @keyframes hFly4 { 0% { transform: translate(0, 0); } 100% { transform: translate(-80vw, -110vh); } }
+      @keyframes hFly5 { 0% { transform: translate(0, 0); } 100% { transform: translate(90vw, 80vh); } }
+      @keyframes hFly6 { 0% { transform: translate(0, 0); } 100% { transform: translate(100vw, 30vh); } }
+      @keyframes hFly7 { 0% { transform: translate(0, 0); } 100% { transform: translate(-100vw, -40vh); } }
+      @keyframes hFly8 { 0% { transform: translate(0, 0); } 100% { transform: translate(-40vw, -100vh); } }
+      .loading-box {
+        text-align: center;
+        position: relative;
+        z-index: 1;
+        max-width: 400px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .loading-box p {
+        color: #5c3d4a;
+        font-size: clamp(1.1rem, 3vw, 1.5rem);
+        margin-bottom: 2rem;
+        line-height: 1.5;
+      }
+      .progress-wrap {
+        height: 12px;
+        background: rgba(255, 228, 236, 0.6);
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 182, 193, 0.4);
+      }
+      .progress-bar {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #ffcce0, #e84a5f);
+        border-radius: 10px;
+        transition: width 0.15s linear;
+      }
+      .container {
+        --uib-size: 45px;
+        --uib-color: #5c3d4a;
+        --uib-speed: 1.75s;
+        position: relative;
+        height: var(--uib-size);
+        width: var(--uib-size);
+        animation: rotate calc(var(--uib-speed) * 4) linear infinite;
+      }
+
+      @keyframes rotate {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .particle {
+        position: absolute;
+        top: 0%;
+        left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+
+        &:nth-child(1) {
+          --uib-delay: 0;
+          transform: rotate(8deg);
+        }
+        &:nth-child(2) {
+          --uib-delay: -0.4;
+          transform: rotate(36deg);
+        }
+
+        &:nth-child(3) {
+          --uib-delay: -0.9;
+          transform: rotate(72deg);
+        }
+        &:nth-child(4) {
+          --uib-delay: -0.5;
+          transform: rotate(90deg);
+        }
+        &:nth-child(5) {
+          --uib-delay: -0.3;
+          transform: rotate(144deg);
+        }
+        &:nth-child(6) {
+          --uib-delay: -0.2;
+          transform: rotate(180deg);
+        }
+        &:nth-child(7) {
+          --uib-delay: -0.6;
+          transform: rotate(216deg);
+        }
+        &:nth-child(8) {
+          --uib-delay: -0.7;
+          transform: rotate(252deg);
+        }
+        &:nth-child(9) {
+          --uib-delay: -0.1;
+          transform: rotate(300deg);
+        }
+        &:nth-child(10) {
+          --uib-delay: -0.8;
+          transform: rotate(324deg);
+        }
+        &:nth-child(11) {
+          --uib-delay: -1.2;
+          transform: rotate(335deg);
+        }
+        &:nth-child(12) {
+          --uib-delay: -0.5;
+          transform: rotate(290deg);
+        }
+        &:nth-child(13) {
+          --uib-delay: -0.2;
+          transform: rotate(240deg);
+        }
+      }
+
+      .particle::before {
+        content: "";
+        position: absolute;
+        height: 17.5%;
+        width: 17.5%;
+        border-radius: 50%;
+        background-color: var(--uib-color);
+        flex-shrink: 0;
+        transition: background-color 0.3s ease;
+        --uib-d: calc(var(--uib-delay) * var(--uib-speed));
+        animation: orbit var(--uib-speed) linear var(--uib-d) infinite;
+      }
+
+      @keyframes orbit {
+        0% {
+          transform: translate(calc(var(--uib-size) * 0.5)) scale(0.73684);
+          opacity: 0.65;
+        }
+        5% {
+          transform: translate(calc(var(--uib-size) * 0.4)) scale(0.684208);
+          opacity: 0.58;
+        }
+        10% {
+          transform: translate(calc(var(--uib-size) * 0.3)) scale(0.631576);
+          opacity: 0.51;
+        }
+        15% {
+          transform: translate(calc(var(--uib-size) * 0.2)) scale(0.578944);
+          opacity: 0.44;
+        }
+        20% {
+          transform: translate(calc(var(--uib-size) * 0.1)) scale(0.526312);
+          opacity: 0.37;
+        }
+        25% {
+          transform: translate(0%) scale(0.47368);
+          opacity: 0.3;
+        }
+        30% {
+          transform: translate(calc(var(--uib-size) * -0.1)) scale(0.526312);
+          opacity: 0.37;
+        }
+        35% {
+          transform: translate(calc(var(--uib-size) * -0.2)) scale(0.578944);
+          opacity: 0.44;
+        }
+        40% {
+          transform: translate(calc(var(--uib-size) * -0.3)) scale(0.631576);
+          opacity: 0.51;
+        }
+        45% {
+          transform: translate(calc(var(--uib-size) * -0.4)) scale(0.684208);
+          opacity: 0.58;
+        }
+        50% {
+          transform: translate(calc(var(--uib-size) * -0.5)) scale(0.73684);
+          opacity: 0.65;
+        }
+        55% {
+          transform: translate(calc(var(--uib-size) * -0.4)) scale(0.789472);
+          opacity: 0.72;
+        }
+        60% {
+          transform: translate(calc(var(--uib-size) * -0.3)) scale(0.842104);
+          opacity: 0.79;
+        }
+        65% {
+          transform: translate(calc(var(--uib-size) * -0.2)) scale(0.894736);
+          opacity: 0.86;
+        }
+        70% {
+          transform: translate(calc(var(--uib-size) * -0.1)) scale(0.947368);
+          opacity: 0.93;
+        }
+        75% {
+          transform: translate(0%) scale(1);
+          opacity: 1;
+        }
+        80% {
+          transform: translate(calc(var(--uib-size) * 0.1)) scale(0.947368);
+          opacity: 0.93;
+        }
+        85% {
+          transform: translate(calc(var(--uib-size) * 0.2)) scale(0.894736);
+          opacity: 0.86;
+        }
+        90% {
+          transform: translate(calc(var(--uib-size) * 0.3)) scale(0.842104);
+          opacity: 0.79;
+        }
+        95% {
+          transform: translate(calc(var(--uib-size) * 0.4)) scale(0.789472);
+          opacity: 0.72;
+        }
+        100% {
+          transform: translate(calc(var(--uib-size) * 0.5)) scale(0.73684);
+          opacity: 0.65;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="hearts-bg" aria-hidden="true">
+      <span class="heart heart-1"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
+      <span class="heart heart-2"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
+      <span class="heart heart-3"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
+      <span class="heart heart-4"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
+      <span class="heart heart-5"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
+      <span class="heart heart-6"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
+      <span class="heart heart-7"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
+      <span class="heart heart-8"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
+    </div>
+    <div class="loading-box">
+      <p>Обрабатываем твои ответы,<br />генерируем твою валентинку...</p>
+      <div class="container">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+      </div>
+      <div class="progress-wrap" style="margin-top: 2rem; width: 100%; max-width: 280px;">
+        <div class="progress-bar" id="bar"></div>
+      </div>
+    </div>
+    <script>
+      (function () {
+        var duration = 5500;
+        var bar = document.getElementById("bar");
+        var start = Date.now();
+        function tick() {
+          var elapsed = Date.now() - start;
+          var pct = Math.min(100, (elapsed / duration) * 100);
+          bar.style.width = pct + "%";
+          if (pct < 100) requestAnimationFrame(tick);
+          else window.location.href = "end.html";
+        }
+        requestAnimationFrame(tick);
+      })();
+    </script>
+  </body>
+</html>

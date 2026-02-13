@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Вопрос 8</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="./img/favicon.png" />
+
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(
+          160deg,
+          #fff5f7 0%,
+          #ffe4ec 40%,
+          #ffcce0 100%
+        );
+        font-family: system-ui, sans-serif;
+        padding: 2rem;
+        overflow-x: hidden;
+        position: relative;
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url(./img/bg-1920.jpg);
+        background-size: cover;
+        background-position: center;
+        opacity: 0.15;
+        pointer-events: none;
+        z-index: 0;
+      }
+      .hearts-bg {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+      }
+      .hearts-bg .heart {
+        position: absolute;
+        width: 22px;
+        height: 22px;
+        opacity: 0.26;
+      }
+      .hearts-bg .heart svg {
+        width: 100%;
+        height: 100%;
+        fill: #e84a5f;
+      }
+      .hearts-bg .heart-1 {
+        left: 0;
+        top: 15%;
+        animation: hFly1 14s linear infinite;
+      }
+      .hearts-bg .heart-2 {
+        left: 95%;
+        top: 25%;
+        animation: hFly2 16s linear infinite 1s;
+      }
+      .hearts-bg .heart-3 {
+        left: 20%;
+        top: 0;
+        animation: hFly3 13s linear infinite 2s;
+      }
+      .hearts-bg .heart-4 {
+        left: 80%;
+        top: 85%;
+        animation: hFly4 15s linear infinite 0.5s;
+      }
+      @keyframes hFly1 {
+        0% {
+          transform: translate(0, 0);
+        }
+        100% {
+          transform: translate(-110vw, 20vh);
+        }
+      }
+      @keyframes hFly2 {
+        0% {
+          transform: translate(0, 0);
+        }
+        100% {
+          transform: translate(110vw, -15vh);
+        }
+      }
+      @keyframes hFly3 {
+        0% {
+          transform: translate(0, 0);
+        }
+        100% {
+          transform: translate(30vw, 110vh);
+        }
+      }
+      @keyframes hFly4 {
+        0% {
+          transform: translate(0, 0);
+        }
+        100% {
+          transform: translate(-80vw, -110vh);
+        }
+      }
+      .question {
+        color: #5c3d4a;
+        width: 100%;
+        font-size: clamp(1.2rem, 3vw, 1.8rem);
+        text-align: center;
+        margin-bottom: 32px;
+        line-height: 1.5;
+      }
+      .container {
+        width: 700px;
+        background-color: rgba(255, 255, 255, 0.85);
+        padding: 2rem;
+        border-radius: 20px;
+        border: 1px solid rgba(255, 182, 193, 0.5);
+        box-shadow: 0 8px 32px rgba(255, 105, 180, 0.12);
+        position: relative;
+      }
+      .answers-wrap {
+        position: relative;
+        width: 100%;
+        height: 240px;
+      }
+      .card {
+        padding: 1.5rem 2rem;
+        border-radius: 16px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition:
+          box-shadow 0.2s,
+          background 0.2s;
+        width: 280px;
+        height: 100px;
+        text-align: center;
+        background: rgba(255, 228, 236, 0.9);
+        color: #5c3d4a;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(255, 182, 193, 0.4);
+        box-shadow: 0 4px 16px rgba(255, 105, 180, 0.08);
+      }
+      .card:hover {
+        box-shadow: 0 6px 20px rgba(255, 105, 180, 0.2);
+      }
+      .card.correct {
+        position: absolute;
+      }
+      .card.correct.slot-1 {
+        left: 0;
+        top: 0;
+      }
+      .card.correct.slot-2 {
+        left: 100%;
+        top: 0;
+        transform: translateX(-100%);
+      }
+      .card.correct.slot-3 {
+        left: 0;
+        top: 100%;
+        transform: translateY(-100%);
+      }
+      .card.correct.slot-4 {
+        left: 100%;
+        top: 100%;
+        transform: translate(-100%, -100%);
+      }
+      .card.wrong {
+        position: absolute;
+      }
+      .card.wrong.slot-1 {
+        left: 0;
+        top: 0;
+      }
+      .card.wrong.slot-2 {
+        left: 100%;
+        top: 0;
+        transform: translateX(-100%);
+      }
+      .card.wrong.slot-3 {
+        left: 0;
+        top: 100%;
+        transform: translateY(-100%);
+      }
+      .card.wrong.slot-4 {
+        left: 100%;
+        top: 100%;
+        transform: translate(-100%, -100%);
+      }
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+      }
+      .modal-overlay.show {
+        display: flex;
+      }
+      .modal-box {
+        background: rgba(255, 255, 255, 0.98);
+        padding: 2rem;
+        border-radius: 20px;
+        border: 1px solid rgba(255, 182, 193, 0.5);
+        box-shadow: 0 12px 48px rgba(255, 105, 180, 0.2);
+        text-align: center;
+        width: 520px;
+      }
+      .modal-title {
+        color: #c73e54;
+        font-size: 2.1rem;
+        font-weight: 700;
+        margin-bottom: 1.3rem;
+      }
+      .modal-text {
+        color: #5c3d4a;
+        font-size: 1.35rem;
+        margin-bottom: 1.25rem;
+      }
+      .modal-btn {
+        display: inline-block;
+        width: 100%;
+        padding: 0.9rem 1.5rem;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 16px;
+        background: linear-gradient(145deg, #ffcce0, #e84a5f);
+        color: #fff;
+        border: none;
+        cursor: pointer;
+      }
+      .modal-btn:hover {
+        opacity: 0.95;
+      }
+      .modal-btns {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: center;
+      }
+      .modal-btn-skip {
+        background: rgba(255, 228, 236, 0.9);
+        color: #5c3d4a;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="hearts-bg" aria-hidden="true">
+      <span class="heart heart-1"
+        ><svg viewBox="0 0 24 24">
+          <path
+            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+          /></svg
+      ></span>
+      <span class="heart heart-2"
+        ><svg viewBox="0 0 24 24">
+          <path
+            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+          /></svg
+      ></span>
+      <span class="heart heart-3"
+        ><svg viewBox="0 0 24 24">
+          <path
+            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+          /></svg
+      ></span>
+      <span class="heart heart-4"
+        ><svg viewBox="0 0 24 24">
+          <path
+            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+          /></svg
+      ></span>
+    </div>
+    <div class="container">
+      <p class="question">Теперь доверься чутью и выбери песню</p>
+      <div class="answers-wrap">
+        <span class="card wrong slot-1" data-wrong>Нюша - Не перебивай</span>
+        <a href="#" class="card correct slot-2" id="correct-8"
+          >Кравц - Обнуляй</a
+        >
+        <span class="card wrong slot-3" data-wrong
+          >Quest Pistols - Ты так красива</span
+        >
+        <span class="card wrong slot-4" data-wrong
+          >CMH, Рома Жёлудь - Люби меня</span
+        >
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="extra-modal">
+      <div class="modal-box">
+        <p class="modal-title">Верно!</p>
+        <p class="modal-text">Остается экстра раунд</p>
+        <p class="modal-text">Готова ли ты к нему?</p>
+
+        <p class="modal-text">Теперь нужно будет определиться с типажом</p>
+
+        <div class="modal-btns">
+          <a href="extra.html" class="modal-btn">Да, готова!</a>
+          <a href="extra.html" class="modal-btn modal-btn-skip"
+            >Другого выбора нет хпахпхап</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="tries-modal">
+      <div class="modal-box">
+        <p class="modal-title">Неправильно</p>
+        <p class="modal-text" id="tries-text">У тебя еще 3 попытки</p>
+        <button type="button" class="modal-btn" id="tries-close">
+          Попробовать снова
+        </button>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var triesLeft = 4;
+        var triesModal = document.getElementById("tries-modal");
+        var triesText = document.getElementById("tries-text");
+        var triesClose = document.getElementById("tries-close");
+        document
+          .getElementById("correct-8")
+          .addEventListener("click", function (e) {
+            e.preventDefault();
+            document.getElementById("extra-modal").classList.add("show");
+          });
+        document.querySelectorAll("[data-wrong]").forEach(function (el) {
+          el.addEventListener("click", function () {
+            if (triesLeft <= 0) return;
+            triesLeft--;
+            if (triesLeft === 0) {
+              triesText.textContent = "Попытки закончились";
+              triesClose.textContent = "Дальше";
+            } else {
+              var word = triesLeft === 1 ? "попытка" : "попытки";
+              triesText.textContent =
+                "Неправильно, у тебя еще " + triesLeft + " " + word;
+            }
+            triesModal.classList.add("show");
+          });
+        });
+        triesClose.addEventListener("click", function () {
+          if (triesLeft > 0) triesModal.classList.remove("show");
+          else window.location.href = "loading.html";
+        });
+      })();
+    </script>
+  </body>
+</html>

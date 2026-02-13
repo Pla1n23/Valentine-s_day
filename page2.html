@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вопрос 2</title>
+  <link rel="icon" type="image/png" sizes="32x32"  href="./img/favicon.png">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(160deg, #fff5f7 0%, #ffe4ec 40%, #ffcce0 100%);
+      font-family: system-ui, sans-serif;
+      padding: 2rem;
+      overflow-x: hidden;
+      position: relative;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url(./img/bg-1920.jpg);
+      background-size: cover;
+      background-position: center;
+      opacity: 0.15;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .hearts-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .hearts-bg .heart { position: absolute; width: 22px; height: 22px; opacity: 0.26; }
+    .hearts-bg .heart svg { width: 100%; height: 100%; fill: #e84a5f; }
+    .hearts-bg .heart-1 { left: 0; top: 15%; animation: hFly1 14s linear infinite; }
+    .hearts-bg .heart-2 { left: 95%; top: 25%; animation: hFly2 16s linear infinite 1s; }
+    .hearts-bg .heart-3 { left: 20%; top: 0; animation: hFly3 13s linear infinite 2s; }
+    .hearts-bg .heart-4 { left: 80%; top: 85%; animation: hFly4 15s linear infinite 0.5s; }
+    .hearts-bg .heart-5 { left: 50%; top: 10%; animation: hFly5 17s linear infinite 3s; }
+    .hearts-bg .heart-6 { left: 5%; top: 60%; animation: hFly6 12s linear infinite 2.5s; }
+    .hearts-bg .heart-7 { left: 90%; top: 50%; animation: hFly7 18s linear infinite 1.5s; }
+    .hearts-bg .heart-8 { left: 40%; top: 90%; animation: hFly8 14s linear infinite 4s; }
+    @keyframes hFly1 { 0% { transform: translate(0, 0); } 100% { transform: translate(-110vw, 20vh); } }
+    @keyframes hFly2 { 0% { transform: translate(0, 0); } 100% { transform: translate(110vw, -15vh); } }
+    @keyframes hFly3 { 0% { transform: translate(0, 0); } 100% { transform: translate(30vw, 110vh); } }
+    @keyframes hFly4 { 0% { transform: translate(0, 0); } 100% { transform: translate(-80vw, -110vh); } }
+    @keyframes hFly5 { 0% { transform: translate(0, 0); } 100% { transform: translate(90vw, 80vh); } }
+    @keyframes hFly6 { 0% { transform: translate(0, 0); } 100% { transform: translate(100vw, 30vh); } }
+    @keyframes hFly7 { 0% { transform: translate(0, 0); } 100% { transform: translate(-100vw, -40vh); } }
+    @keyframes hFly8 { 0% { transform: translate(0, 0); } 100% { transform: translate(-40vw, -100vh); } }
+    .question { color: #5c3d4a; font-size: clamp(1.2rem, 3vw, 1.8rem); text-align: center; max-width: 600px; margin-bottom: 32px; line-height: 1.5; }
+    .container {
+      width: 700px;
+      background-color: rgba(255, 255, 255, 0.85);
+      padding: 2rem;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 182, 193, 0.5);
+      box-shadow: 0 8px 32px rgba(255, 105, 180, 0.12);
+      position: relative;
+    }
+    .answers-wrap { position: relative; width: 100%; height: 240px; }
+    .card {
+      padding: 1.5rem 2rem;
+      border-radius: 16px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: box-shadow 0.2s, background 0.2s, color 0.2s;
+      width: 280px;
+      height: 100px;
+      text-align: center;
+      background: rgba(255, 228, 236, 0.9);
+      color: #5c3d4a;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255, 182, 193, 0.4);
+      box-shadow: 0 4px 16px rgba(255, 105, 180, 0.08);
+    }
+    .card.correct { position: absolute; }
+    .card.correct:hover { scale: 1.05; transition: all 0.2s ease-in-out;}
+    .card.correct.slot-1 { left: 0; top: 0; }
+    .card.correct.slot-2 { left: 100%; top: 0; transform: translateX(-100%); }
+    .card.correct.slot-3 { left: 0; top: 100%; transform: translateY(-100%); }
+    .card.correct.slot-4 { left: 100%; top: 100%; transform: translate(-100%, -100%); }
+    .card.wrong { position: absolute; }
+    .card.wrong.wrong-red:hover {
+      background: #e84a5f;
+      color: #fff;
+      border-color: #c73e54;
+      box-shadow: 0 6px 20px rgba(232, 74, 95, 0.35);
+    }
+    .wrong-hint {
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-bottom: 8px;
+      padding: 8px 14px;
+      background: #c73e54;
+      color: #fff;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+      box-shadow: 0 4px 12px rgba(199, 62, 84, 0.4);
+    }
+    .card.wrong-red:hover .wrong-hint { opacity: 1; }
+    .card.wrong.slot-1 { left: 0; top: 0; }
+    .card.wrong.slot-2 { left: 100%; top: 0; transform: translateX(-100%); }
+    .card.wrong.slot-3 { left: 0; top: 100%; transform: translateY(-100%); }
+    .card.wrong.slot-4 { left: 100%; top: 100%; transform: translate(-100%, -100%); }
+    .answer-slot {
+      position: absolute;
+      width: 280px;
+      height: 100px;
+    }
+    .answer-slot.slot-1 { left: 0; top: 0; }
+    .answer-slot.slot-2 { left: 100%; top: 0; transform: translateX(-100%); }
+    .answer-slot.slot-3 { left: 0; top: 100%; transform: translateY(-100%); }
+    .answer-slot.slot-4 { left: 100%; top: 100%; transform: translate(-100%, -100%); }
+    .answer-slot .card { position: relative; left: 0; top: 0; transform: none; }
+    .answer-slot .think-again {
+      display: none;
+      position: absolute;
+      inset: 0;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #c73e54;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.95);
+      border: 2px solid #e84a5f;
+    }
+    .answer-slot.hovered .card { display: none; }
+    .answer-slot.hovered .think-again { display: flex; }
+  </style>
+</head>
+<body>
+  <div class="hearts-bg" aria-hidden="true">
+    <span class="heart heart-1"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
+    <span class="heart heart-2"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
+    <span class="heart heart-3"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
+    <span class="heart heart-4"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
+    <span class="heart heart-5"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
+    <span class="heart heart-6"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
+    <span class="heart heart-7"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
+    <span class="heart heart-8"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
+  </div>
+  <div class="container">
+    <p class="question">Какие волосы тебе нравится?</p>
+    <div class="answers-wrap">
+      <a href="page3.html" class="card correct slot-2">Курдряшки</a>
+      <span class="card wrong wrong-teleport slot-1">Блондин</span>
+      <span class="card wrong wrong-red slot-3">Рыжий<span class="wrong-hint">скорее всего это неправильно</span></span>
+      <span class="card wrong wrong-red slot-4">Босс художник<span class="wrong-hint">скорее всего это неправильно</span></span>
+    </div>
+  </div>
+  <script>
+    (function() {
+      function getRandomPos() { return { left: (5 + Math.random() * 90) + '%', top: (15 + Math.random() * 70) + '%' }; }
+      document.querySelectorAll('.card.wrong-teleport').forEach(function(el) {
+        el.addEventListener('mouseenter', function() {
+          var pos = getRandomPos();
+          el.style.position = 'fixed';
+          el.style.left = pos.left;
+          el.style.top = pos.top;
+          el.style.transform = 'translate(-50%, -50%)';
+          el.style.zIndex = '1000';
+        });
+      });
+      document.querySelectorAll('.answer-slot').forEach(function(slot) {
+        slot.addEventListener('mouseenter', function() { slot.classList.add('hovered'); });
+        slot.addEventListener('mouseleave', function() { slot.classList.remove('hovered'); });
+      });
+    })();
+  </script>
+</body>
+</html>
